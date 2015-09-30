@@ -1,6 +1,0 @@
-{
- "name" : "uuid",
- "namespace" : "edu.berkeley.cs.local",
- "type" : "fixed", 
- "size" : 16
-}
