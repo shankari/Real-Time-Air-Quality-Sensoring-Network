@@ -48,7 +48,7 @@ def get_air_quality_data(opts):
 			air_quality_data.append(air_quality_data_city)
 			# print air_quality_data_city
 		except:
-			print "Unexpected error:", sys.exc_info()[0]
+			print "Unexpected error for ",i," : ", sys.exc_info()[0]
 	return air_quality_data
 
 # starts the scraper and gets info after each time_interval 
