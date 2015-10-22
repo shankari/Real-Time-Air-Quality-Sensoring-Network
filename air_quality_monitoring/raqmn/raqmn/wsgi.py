@@ -1,5 +1,5 @@
 """
-WSGI config for air_quality_monitoring project.
+WSGI config for raqmn project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "air_quality_monitoring.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "raqmn.settings")
 
 application = get_wsgi_application()
