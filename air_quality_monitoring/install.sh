@@ -55,7 +55,7 @@ mkdir raqmn/utils
 cd raqmn/utils
 git clone https://github.com/SoftwareDefinedBuildings/upmu-plotter.git
 # Do changes in files
-
+# Setup plotter.conf in supervisord
 
 #Setting up deckard
 cd 
@@ -64,6 +64,7 @@ git clone https://github.com/gtfierro/deckard.git
 sudo npm install
 bower install
 jsx -w react_src/ public/build/
+# Setup deckard.conf in supervisord
 
 pip install django
 pip install djangorestframework
