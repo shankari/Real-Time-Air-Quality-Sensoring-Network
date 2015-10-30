@@ -32,6 +32,6 @@ class SafarDriver(FetchDriver):
 
     def process(self, data):
     	# We get the data and we set the PM2.5 for each sensor
-    	logging.debug(data)
+    	logging.debug(len(data))
     	for i in range(0,len(data)):
             self.add('/'+data[i]['area']+'/pm2.5', data[i]['pm2.5'])
