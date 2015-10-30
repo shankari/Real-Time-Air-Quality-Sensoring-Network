@@ -58,7 +58,7 @@ def start_scraper():
 		air_quality_data = get_air_quality_data()
 		print air_quality_data
 		''' 
-		TO DO
+		TODO
 		Create a function to upload this data on some server
 		'''
 		time.sleep(time_interval)

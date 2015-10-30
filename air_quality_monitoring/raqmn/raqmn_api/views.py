@@ -7,6 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
+from HTMLParser import HTMLParser
 import pycurl
 import json
 import ast
@@ -45,8 +46,24 @@ def index(request):
 
 @csrf_exempt
 @api_view(['GET'])
-def get_data_by_uuid(request):
-
-
+def get_data_by_uuid(request, uuid):
+	"""
+	Returns the metadata from quasar server using uuid of the data
+	"""
+	if request.method == 'GET':
+		parser = HTMLParser()
+		uuid = parser.unescape(uuid)
+		query_url = 'http://localhost:8079/api/query'
+		query = "select data in (now -100d, now) where uuid='"+uuid+"'"
+		storage = StringIO()
+		curlObj = pycurl.Curl()
+		curlObj.setopt(curlObj.URL, query_url)
+		curlObj.setopt(curlObj.POST, 1)
+		curlObj.setopt(curlObj.POSTFIELDS, query)
+		curlObj.setopt(curlObj.WRITEFUNCTION, storage.write)
+		curlObj.perform()
+		curlObj.close()
+		return_json = ast.literal_eval(storage.getvalue().replace('"',"'"))
+		return Response(return_json)
 
 # Leave the rest of the views (detail, results, vote) unchanged

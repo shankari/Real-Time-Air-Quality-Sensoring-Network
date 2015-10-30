@@ -1,10 +1,60 @@
 {% include "raqmn_data/header.html" %}
-<div id="tester" style="width:600px;height:250px;"></div>
+<style>
+#chart_container {
+	position: relative;
+	font-family: Arial, Helvetica, sans-serif;
+}
+#chart {
+	position: relative;
+	left: 40px;
+}
+.rickshaw_graph .y_ticks {
+	left: 0;
+}
+#y_axis {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 40px;
+}
+</style>
+<div id="chart_container">
+	<div id="y_axis"></div>
+	<div id="chart"></div>
+</div>
 <script>
-	TESTER = document.getElementById('tester');
-	Plotly.plot( TESTER, [{
-	x: [1, 2, 3, 4, 5],
-	y: [1, 2, 4, 8, 16] }], {
-	margin: { t: 0 } } );
+	var palette = new Rickshaw.Color.Palette();
+	var series_data = [];
+	{% for reading in aqi %}
+		var series_data_unit = {};
+		// var d = new Date(0);
+		// d.setUTCMilliseconds({{ reading.0 }});
+		series_data_unit.x = {{ reading.0 }}/1000;
+		series_data_unit.y = {{ reading.1 }};
+		series_data.push(series_data_unit);
+	{% endfor %}
+	var graph = new Rickshaw.Graph({
+		element: document.querySelector('#chart'),
+		width: 1080,
+		height: 560,
+		series: [
+		{
+			data: series_data,
+			// data : [ { x: -1893456000, y: 92228531 }, { x: -1577923200, y: 106021568 }, { x: -1262304000, y: 123202660 }, { x: -946771200, y: 132165129 }, { x: -631152000, y: 151325798 }, { x: -315619200, y: 179323175 }, { x: 0, y: 203211926 }, { x: 315532800, y: 226545805 }, { x: 631152000, y: 248709873 }, { x: 946684800, y: 281421906 }, { x: 1262304000, y: 308745538 } ],
+			color: 'steelblue'
+		}
+		]
+	});
+	var x_axis = new Rickshaw.Graph.Axis.Time( { graph: graph } );
+
+	var y_axis = new Rickshaw.Graph.Axis.Y( {
+        graph: graph,
+        orientation: 'left',
+        tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+        element: document.getElementById('y_axis'),
+	} );
+	graph.setRenderer('line');
+	graph.render();
+	console.log(series_data);
 </script>
 {% include "raqmn_data/footer.html" %}

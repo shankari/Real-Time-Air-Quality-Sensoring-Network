@@ -25,6 +25,7 @@ class SafarDriver(FetchDriver):
             safar_city = self.add_timeseries('/'+data[i]['area']+'/pm2.5','ug/m3',description = 'PM2.5 readings for '+data[i]['area'])
             safar_city['Properties']['Timezone'] = 'India/Mumbai'
             safar_city['Metadata'] = {}
+            safar_city['Metadata']['SourceName'] = data[i]['area']
             safar_city['Metadata']['Area'] = data[i]['area']
             safar_city['Metadata']['Latitude'] = data[i]['latitude']
             safar_city['Metadata']['Longitude'] = data[i]['longtitude']
