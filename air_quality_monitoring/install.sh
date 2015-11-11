@@ -39,7 +39,7 @@ mkdir quasar_data
 cd
 cd raqmn/go/src/github.com/SoftwareDefinedBuildings/quasar
 sudo mkdir /etc/quasar
-sudo cp /etc/quasar/quasar.conf
+sudo cp quasar.conf /etc/quasar/quasar.conf
 qserver -makedb
 
 # Installing Giles
@@ -47,6 +47,7 @@ go get -u -a github.com/gtfierro/giles
 cd raqmn/go/src/github.com/gtfierro/giles
 go get ./... && go install -a github.com/gtfierro/giles
 curl -O https://raw.githubusercontent.com/gtfierro/giles/master/giles.cfg
+cp giles.cfg raqmn/go/bin/ 
 
 mkdir raqmn/log
 # Add quasar.conf and giles.conf to /etc/supervisor/conf.d/
