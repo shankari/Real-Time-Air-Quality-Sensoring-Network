@@ -29,7 +29,7 @@ rm -rf quasar
 mv btrdb quasar
 cd quasar
 git checkout 0358bb4
-go install ./qserver
+go get ./... && go install ./qserver
 # Edit qserver.conf
 # replace filepath by /home/ubuntu/raqmn/data/quasar_data/quasar/
 cd ~/raqmn
@@ -44,7 +44,8 @@ qserver -makedb
 
 # Installing Giles
 go get -u -a github.com/gtfierro/giles
-go install -a github.com/gtfierro/giles
+cd raqmn/go/src/github.com/gtfierro/giles
+go get ./... && go install -a github.com/gtfierro/giles
 curl -O https://raw.githubusercontent.com/gtfierro/giles/master/giles.cfg
 
 mkdir raqmn/log
