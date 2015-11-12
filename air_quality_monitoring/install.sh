@@ -1,3 +1,4 @@
+# Installationinstructions inspired from http://gtfierro.github.io/giles/stack/
 sudo apt-get install git librados-dev mongodb npm nodejs nodejs-legacy supervisor mercurial curl python-dev python-pip build-essential
 sudo npm install -g bower react-tools
 curl https://install.meteor.com/ | sh
