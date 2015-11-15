@@ -9,8 +9,9 @@ from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from HTMLParser import HTMLParser
 import pycurl
-import json
+import simplejson as json
 import ast
+import requests
 from StringIO import StringIO
 
 
@@ -32,16 +33,8 @@ def index(request):
 	if request.method == 'GET':
 		query_url = 'http://localhost:8079/api/query'
 		query = "select *"
-		storage = StringIO()
-		curlObj = pycurl.Curl()
-		curlObj.setopt(curlObj.URL, query_url)
-		curlObj.setopt(curlObj.POST, 1)
-		curlObj.setopt(curlObj.POSTFIELDS, query)
-		curlObj.setopt(curlObj.WRITEFUNCTION, storage.write)
-		curlObj.perform()
-		curlObj.close()
-		return_json = ast.literal_eval(storage.getvalue().replace('"',"'"))
-
+		r = requests.post(query_url, query)
+		return_json = json.loads(r.content)
 		return Response(return_json)
 
 @csrf_exempt
@@ -55,15 +48,8 @@ def get_data_by_uuid(request, uuid):
 		uuid = parser.unescape(uuid)
 		query_url = 'http://localhost:8079/api/query'
 		query = "select data in (now -30d, now) where uuid='"+uuid+"'"
-		storage = StringIO()
-		curlObj = pycurl.Curl()
-		curlObj.setopt(curlObj.URL, query_url)
-		curlObj.setopt(curlObj.POST, 1)
-		curlObj.setopt(curlObj.POSTFIELDS, query)
-		curlObj.setopt(curlObj.WRITEFUNCTION, storage.write)
-		curlObj.perform()
-		curlObj.close()
-		return_json = ast.literal_eval(storage.getvalue().replace('"',"'"))
+		r = requests.post(query_url, query)
+		return_json = json.loads(r.content)
 		return Response(return_json)
 
 @csrf_exempt
@@ -77,15 +63,8 @@ def get_average_data_12_hrs(request, uuid):
 		uuid = parser.unescape(uuid)
 		query_url = 'http://localhost:8079/api/query'
 		query = "select data in (now -12h, now) where uuid='"+uuid+"'"
-		storage = StringIO()
-		curlObj = pycurl.Curl()
-		curlObj.setopt(curlObj.URL, query_url)
-		curlObj.setopt(curlObj.POST, 1)
-		curlObj.setopt(curlObj.POSTFIELDS, query)
-		curlObj.setopt(curlObj.WRITEFUNCTION, storage.write)
-		curlObj.perform()
-		curlObj.close()
-		readings = ast.literal_eval(storage.getvalue().replace('"',"'"))
+		r = requests.post(query_url, query)
+		readings = json.loads(r.content)
 		readings = readings[0]["Readings"]
 		numObservation = 0
 		totalAirQuality = 0
