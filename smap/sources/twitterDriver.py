@@ -6,12 +6,11 @@ from datetime import datetime
 from twisted.internet import threads
 from twisted.python import log
 
-import pytz
-import time
+import pytz, time
 import twitter
-import ast
+import simplejson as json
 import requests
-import sys
+import sys, traceback
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -36,7 +35,7 @@ class TwitterDriver(SmapDriver):
     def post_to_twitter(self):
         # Posting last 12hour average to twitter after every 12hours
         r = requests.get('http://localhost:8000/raqmn_api/')
-        contents = ast.literal_eval(r.content)
+        contents = json.loads(r.content)
         dt = datetime.now(self.tz)
         logging.debug(dt)
         for content in contents:
@@ -52,15 +51,18 @@ class TwitterDriver(SmapDriver):
             time_print = dt.strftime('%a, %d %b %Y %H:%M')
             tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
-            status = api.PostUpdate(tweet_content)
+            logging.debug(tweet_content)
+            # status = api.PostUpdate(tweet_content)
         except:
-            print "Unexpected error : ", sys.exc_info()[0]
+            logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
+            logging.debug("Traceback : "+ str(traceback.format_exc()))
 
     def get_unit(self,pollutant):
         if pollutant == 'pm2.5':
             return 'ug/m3'
 
     def get_level(self,measure, pollutant):
+        # Source : http://www.indiaenvironmentportal.org.in/files/file/Air%20Quality%20Index.pdf
         if pollutant == 'pm2.5' :
             if measure < 30 :
                 return 'Good'

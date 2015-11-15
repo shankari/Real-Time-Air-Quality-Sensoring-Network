@@ -19,3 +19,4 @@ pip install pyOpenSSL
 pip install service_identity
 pip install python-twitter
 pip install pytz
+pip install simplejson

@@ -2,15 +2,16 @@ from bs4 import BeautifulSoup
 
 import requests
 import ast
-import sys
+import sys, traceback
 import time
+import logging
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # function that returns output of beautiful soup from a url
 def get_web_page(url):
 	web_page = requests.get(url)
 	web_page_data = web_page.text
 	content = BeautifulSoup(web_page_data, "lxml")
-	# print content
 	return content
 
 # gets the content from web page and curates it to get the string syntactically as a list
@@ -49,23 +50,11 @@ def get_air_quality_data(opts):
 				air_quality_data.append(air_quality_data_city)
 				# print air_quality_data_city
 			except:
-				print "Unexpected error for ",i," : ", sys.exc_info()[0]
+				logging.debug("Unexpected error for "+ str(i)+" : "+str(sys.exc_info()[0]))
+				logging.debug("Traceback : "+ str(traceback.format_exc()))
 		return air_quality_data
 	except:
-		print "Unexpected error : ", sys.exc_info()[0]
+		logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
+		logging.debug("Traceback : "+ str(traceback.format_exc()))
 		air_quality_data = []
 		return air_quality_data
-
-
-# starts the scraper and gets info after each time_interval 
-def start_scraper():
-	time_interval = 180
-	while True:
-		air_quality_data = get_air_quality_data()
-		print air_quality_data
-		''' 
-		TODO
-		Create a function to upload this data on some server
-		'''
-		time.sleep(time_interval)
-
