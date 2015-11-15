@@ -1,0 +1,22 @@
+# Install virtualenv and create a virtualenv
+# sudo pip install virtualenv
+# virtualenv btp_venv
+# source btp_venv/bin/activate
+# Python2.7
+pip install smap
+pip install django
+pip install djangorestframework
+pip install markdown       # Markdown support for the browsable API.
+pip install django-filter  # Filtering support
+sudo apt-get install libcurl4-openssl-dev
+pip install pycurl
+pip install requests
+pip install BeautifulSoup4
+sudo apt-get install libxml2-dev libxslt-dev python-dev
+pip install lxml
+sudo apt-get install libffi-dev
+pip install pyOpenSSL
+pip install service_identity
+pip install python-twitter
+pip install pytz
+pip install simplejson
