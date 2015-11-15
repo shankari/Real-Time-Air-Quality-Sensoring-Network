@@ -6,15 +6,20 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %
 class SafarDriver(FetchDriver):
     """
     The driver fetches the data from safar site and we store the data in format
-    {"/safar/AREA/pm2.5": 
-    	{"Metadata": 
-    		{"Location/Latitude": "lat", 
-    		 "Location/Longitude": "long"},
-    	"Description": "PM2.5 readings for AREA", 
-    	"Readings": [[1443737423000, 100]], 
-    	"uuid": "166ac024-ab8f-5f49-b29d-f7bf00199cee", 
-    	"Properties": {"Timezone": "India/Mumbai", "UnitofMeasure": "ug/m3", "ReadingType": "long"}
-    	},...
+    {
+        "Path": "/safar/Worali/pm2.5",
+        "uuid": "c73a33b2-a6b0-5ff5-a048-0c1fa01495e3",
+        "Properties": {
+            "Timezone": "India/Mumbai",
+            "UnitofMeasure": "ug/m3",
+            "ReadingType": "long"
+        },
+        "Metadata": {
+            "Latitude": "19.01747",
+            "SourceName": "Worali",
+            "Longitude": "72.81751",
+            "Area": "Worali"
+        }
     }
     """
     def setup(self, opts):
