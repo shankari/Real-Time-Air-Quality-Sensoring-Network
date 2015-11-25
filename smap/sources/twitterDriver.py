@@ -58,24 +58,22 @@ class TwitterDriver(SmapDriver):
             logging.debug("Traceback : "+ str(traceback.format_exc()))
 
     def get_unit(self,pollutant):
-        if pollutant == 'pm2.5':
-            return 'ug/m3'
+        return "AQI"
 
     def get_level(self,measure, pollutant):
         # Source : http://www.indiaenvironmentportal.org.in/files/file/Air%20Quality%20Index.pdf
-        if pollutant == 'pm2.5' :
-            if measure < 30 :
-                return 'Good'
-            elif measure < 60 :
-                return 'Satisfactory'
-            elif measure < 90 :
-                return 'Moderately polluted'
-            elif measure < 150 : 
-                return 'Poor'
-            elif measure < 250 :
-                return 'Very Poor'
-            else :
-                return 'Severe'
+        if measure <= 50 :
+            return 'Good'
+        elif measure <= 100 :
+            return 'Satisfactory'
+        elif measure <= 250 :
+            return 'Moderately polluted'
+        elif measure <= 350 : 
+            return 'Poor'
+        elif measure <= 430 :
+            return 'Very Poor'
+        else :
+            return 'Severe'
 
     def load(self, st, et, cache=None):
         d = threads.deferToThread(self.load_data, st, et)
