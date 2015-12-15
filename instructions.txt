@@ -20,3 +20,10 @@ pip install service_identity
 pip install python-twitter
 pip install pytz
 pip install simplejson
+pip install gunicorn
+sudo apt-get update
+sudo apt-get install nginx
+# Add raqmn_nginx to /etc/nginx/sites-available
+# Create symlink in sites-enabled as sudo ln -s /etc/nginx/conf.d/raqmn_nginx.conf /etc/nginx/sites-enabled/
+# Reload sudo nginx -s reload
+# Add supervisor script to run gunicorn, use link http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
