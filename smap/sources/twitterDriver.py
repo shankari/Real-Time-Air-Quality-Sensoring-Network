@@ -34,13 +34,13 @@ class TwitterDriver(SmapDriver):
 
     def post_to_twitter(self):
         # Posting last 12hour average to twitter after every 12hours
-        r = requests.get('http://localhost:8000/raqmn_api/')
+        r = requests.get('http://localhost/raqmn_api/')
         contents = json.loads(r.content)
         dt = datetime.now(self.tz)
         logging.debug(dt)
         for content in contents:
             logging.debug(content['uuid'])
-            req_data = requests.get('http://localhost:8000/raqmn_api/data/12h/'+content['uuid'])
+            req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
             self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
             time.sleep(5)
 
@@ -52,7 +52,7 @@ class TwitterDriver(SmapDriver):
             tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
             logging.debug(tweet_content)
-            status = api.PostUpdate(tweet_content)
+            # status = api.PostUpdate(tweet_content)
         except:
             logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
             logging.debug("Traceback : "+ str(traceback.format_exc()))
