@@ -1,7 +1,7 @@
 #!/bin/bash
 
 NAME="raqmn"                               # Name of the application
-DJANGODIR=/home/dora/Study/BTP_Bhaskaran/raqmn/utils/Real-Time-Air-Quality-Sensoring-Network/air_quality_monitoring/raqmn          # Django project directory
+DJANGODIR=/home/ubuntu/raqmn         # Django project directory
 BINDFILE=0.0.0.0:8000 # we will communicte using this binding
 NUM_WORKERS=3                                     # how many worker processes should Gunicorn spawn
 DJANGO_SETTINGS_MODULE=raqmn.settings             # which settings file should Django use
@@ -11,7 +11,7 @@ echo "Starting $NAME as `whoami`"
 
 # Activate the virtual environment
 cd $DJANGODIR
-source ../../../btp_venv/bin/activate
+source ../../../btp_venv/bin/activate # Virtual Directory path
 export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
 export PYTHONPATH=$DJANGODIR:$PYTHONPATH
 
