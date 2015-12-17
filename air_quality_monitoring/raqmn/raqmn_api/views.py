@@ -39,6 +39,7 @@ def index(request):
 def get_data_by_uuid(request, uuid):
 	"""
 	Returns the metadata from quasar server using uuid of the data
+	TODO : This request must also take time period for which data is needed and reply the data in that time
 	"""
 	if request.method == 'GET':
 		return_json = json.loads(get_data_by_uuid_helper(uuid))
@@ -92,6 +93,7 @@ def get_all_sensors():
 def get_data_by_uuid_helper(uuid):
 	"""
 	Returns the data of sensor specified by uuid of last 30 days
+	TODO : Return the data given time and uuid both, right now only uuid is considered and by default last 30 days data is sent
 	"""
 	parser = HTMLParser()
 	uuid = parser.unescape(uuid)
