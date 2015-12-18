@@ -35,8 +35,8 @@
 	{% endfor %}
 	var graph = new Rickshaw.Graph({
 		element: document.querySelector('#chart'),
-		width: 1080,
-		height: 560,
+		width: 600,
+		height: 400,
 		series: [
 		{
 			data: series_data,
@@ -53,8 +53,8 @@
         tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
         element: document.getElementById('y_axis'),
 	} );
+	console.log(series_data);
 	graph.setRenderer('line');
 	graph.render();
-	console.log(series_data);
 </script>
 {% include "raqmn_data/footer.html" %}
