@@ -23,3 +23,9 @@ def index(request):
 	# print data
 	return render(request, 'index/index.html', data)
 
+def api_specs(request):
+	"""
+	Returns the page with API Specifications
+	It contains the information of all the APIs opened for public usage
+	"""
+	return render(request, 'api_specs/index.html')
