@@ -52,7 +52,7 @@ class TwitterDriver(SmapDriver):
             tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
             logging.debug(tweet_content)
-            # status = api.PostUpdate(tweet_content)
+            status = api.PostUpdate(tweet_content)
         except:
             logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
             logging.debug("Traceback : "+ str(traceback.format_exc()))

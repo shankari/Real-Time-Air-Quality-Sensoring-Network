@@ -21,5 +21,5 @@ def index(request):
 	air_quality_data = raqmn_api.get_data_by_uuid_helper(uuid)
 	data['aqi'] = json.loads(air_quality_data)[0]['Readings']
 	# print data
-	return render(request, 'raqmn_data/plot.html', data)
+	return render(request, 'index/index.html', data)
 
