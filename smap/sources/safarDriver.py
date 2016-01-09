@@ -23,9 +23,11 @@ class SafarDriver(FetchDriver):
     }
     """
     def setup(self, opts):
-    	# We setup the driver by getting the parameters of scraper first and then setting up the timeseries
+        """
+    	We setup the driver by getting the parameters of scraper first and then setting up the timeseries
+        """
         FetchDriver.setup(self, opts)
-        data = get_air_quality_data(opts={})
+        data = get_air_quality_init(opts={})
         for i in range(0,len(data)):
             safar_city = self.add_timeseries('/'+data[i]['area']+'/pm2.5','AQI',description = 'PM2.5 readings for '+data[i]['area'])
             safar_city['Properties']['Timezone'] = 'India/Mumbai'
