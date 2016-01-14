@@ -27,6 +27,9 @@ def get_content(url):
 
 # gets the data of air quality and returns an array of dictionaries with data points 
 def get_air_quality_data(opts):
+	"""
+	This function returns the data collected from the SAFAR Sensors and sends it to the drivers
+	"""
 	try:
 		url = 'http://safar.tropmet.res.in/map_data.php?for=current&city_id=2'
 		content = get_content(url)
@@ -62,7 +65,7 @@ def get_air_quality_data(opts):
 
 def get_air_quality_init(opts):
 	"""
-	Returns only the required info about the safar sensors
+	This function returns only the metadata about the sensors and hence even if the sensors are down you can setup the drivers for them.
 	"""
 	try:
 		url = 'http://safar.tropmet.res.in/map_data.php?for=current&city_id=2'
