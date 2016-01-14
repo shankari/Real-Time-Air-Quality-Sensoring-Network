@@ -49,7 +49,7 @@ class TwitterDriver(SmapDriver):
             unit = self.get_unit(pollutant)
             level = self.get_level(int(float(measure)), pollutant)
             time_print = dt.strftime('%a, %d %b %Y %H:%M')
-            tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR"
+            tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR http://www.cse.iitb.ac.in/raqmn/"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
             logging.debug(tweet_content)
             status = api.PostUpdate(tweet_content)
