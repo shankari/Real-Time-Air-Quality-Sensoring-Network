@@ -46,12 +46,12 @@ def get_air_quality_data(opts):
 				for data in area_web_data.find_all('td'):
 					data_list.append(data.getText())
 				air_quality_data_city['time'] = data_list[1]
-				air_quality_data_city['pm10'] = int(data_list[6])
+				# air_quality_data_city['pm10'] = int(data_list[6])
 				air_quality_data_city['pm2.5'] = int(data_list[9])
-				air_quality_data_city['pmno2'] = int(data_list[12])
-				air_quality_data_city['pmco'] = int(data_list[15])
-				air_quality_data_city['pmo3'] = int(data_list[18])
-				air_quality_data.append(air_quality_data_city)
+				# air_quality_data_city['pmno2'] = int(data_list[12])
+				# air_quality_data_city['pmco'] = int(data_list[15])
+				# air_quality_data_city['pmo3'] = int(data_list[18])
+				# air_quality_data.append(air_quality_data_city)
 				# print air_quality_data_city
 			except:
 				logging.debug("Unexpected error for "+ str(i)+" : "+str(sys.exc_info()[0]))
