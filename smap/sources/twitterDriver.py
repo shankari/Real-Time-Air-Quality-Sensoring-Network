@@ -40,10 +40,11 @@ class TwitterDriver(SmapDriver):
         logging.debug(dt)
         for content in contents:
             try:
-                logging.debug(content['uuid'])
-                req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
-                self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
-                time.sleep(5)
+                if content['Path'].split('/'))[1].strip() is "safar":
+                    logging.debug(content['uuid'])
+                    req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
+                    self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
+                    time.sleep(5)
             except:
                 logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
                 logging.debug("Traceback : "+ str(traceback.format_exc()))
