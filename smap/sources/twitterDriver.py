@@ -39,17 +39,23 @@ class TwitterDriver(SmapDriver):
         dt = datetime.now(self.tz)
         logging.debug(dt)
         for content in contents:
-            logging.debug(content['uuid'])
-            req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
-            self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
-            time.sleep(5)
+            try:
+                if content['Path'].split('/'))[1].strip() is "safar":
+                    logging.debug(content['uuid'])
+                    req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
+                    self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
+                    time.sleep(5)
+            except:
+                logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
+                logging.debug("Traceback : "+ str(traceback.format_exc()))
+
 
     def tweet(self, measure, dt, place, pollutant):
         try:
             unit = self.get_unit(pollutant)
             level = self.get_level(int(float(measure)), pollutant)
             time_print = dt.strftime('%a, %d %b %Y %H:%M')
-            tweet_content = time_print + ", Location : " + place + ", " + str.upper(pollutant) + " : "+measure+" "+unit+" (Last 12hr average), Level : " + level +", Sources : SAFAR http://www.cse.iitb.ac.in/raqmn/"
+            tweet_content = time_print + ", Location: " + place + ", " + str.upper(pollutant) + ": "+measure+" "+unit+" (Last 12hr avg.), Level: " + level +", Sources: SAFAR http://www.cse.iitb.ac.in/raqmn/"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
             logging.debug(tweet_content)
             status = api.PostUpdate(tweet_content)
@@ -67,7 +73,7 @@ class TwitterDriver(SmapDriver):
         elif measure <= 100 :
             return 'Satisfactory'
         elif measure <= 250 :
-            return 'Moderately polluted'
+            return 'Moderate'
         elif measure <= 350 : 
             return 'Poor'
         elif measure <= 430 :

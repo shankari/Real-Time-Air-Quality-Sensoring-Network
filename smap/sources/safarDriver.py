@@ -1,5 +1,5 @@
 from smap.driver import FetchDriver
-from safarScraper import get_air_quality_data
+from safarScraper import get_air_quality_data, get_air_quality_init
 import logging
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
