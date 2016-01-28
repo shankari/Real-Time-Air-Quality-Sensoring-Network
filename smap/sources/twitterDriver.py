@@ -27,6 +27,7 @@ class TwitterDriver(SmapDriver):
         self.access_token_key = str(opts.get('access_token_key', 1))
         self.access_token_secret = str(opts.get('access_token_secret', 1))
         self.tz = pytz.timezone(opts.get('Timezone', 1))
+        self.fetch_url = str(opts.get('url', 1))
 
     def start(self):
         # Call post_to_twitter after every 12 hrs
@@ -34,15 +35,15 @@ class TwitterDriver(SmapDriver):
 
     def post_to_twitter(self):
         # Posting last 12hour average to twitter after every 12hours
-        r = requests.get('http://localhost/raqmn_api/')
+        r = requests.get(self.fetch_url+'raqmn_api/')
         contents = json.loads(r.content)
         dt = datetime.now(self.tz)
         logging.debug(dt)
         for content in contents:
             try:
-                if content['Path'].split('/'))[1].strip() is "safar":
+                if content['Path'].split('/')[1].strip()=='safar':
                     logging.debug(content['uuid'])
-                    req_data = requests.get('http://localhost/raqmn_api/data/12h/'+content['uuid'])
+                    req_data = requests.get(self.fetch_url+'raqmn_api/data/12h/'+content['uuid'])
                     self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
                     time.sleep(5)
             except:
