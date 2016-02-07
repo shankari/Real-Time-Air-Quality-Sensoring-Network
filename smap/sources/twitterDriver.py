@@ -43,7 +43,7 @@ class TwitterDriver(SmapDriver):
             try:
                 if content['Path'].split('/')[1].strip()=='safar':
                     logging.debug(content['uuid'])
-                    req_data = requests.get(self.fetch_url+'raqmn_api/data/12h/'+content['uuid'])
+                    req_data = requests.get(self.fetch_url+'raqmn_api/average/12h/'+content['uuid'])
                     self.tweet(req_data.content, dt, content['Metadata']['SourceName'], (content['Path'].split('/'))[3].strip())
                     time.sleep(5)
             except:
