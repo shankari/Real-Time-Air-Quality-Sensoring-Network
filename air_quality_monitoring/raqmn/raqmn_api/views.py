@@ -36,29 +36,23 @@ def index(request):
 
 @csrf_exempt
 @api_view(['GET'])
-def get_data_by_uuid(request, uuid):
+def get_data_by_uuid(request, uuid, hours):
 	"""
-	Returns the metadata from quasar server using uuid of the data
-	TODO : This request must also take time period for which data is needed and reply the data in that time
+	Returns the data from quasar server using uuid of the data between now and (now - hours)
+	TODO : This request must take time period in days,hours,minutes format for which data is needed and reply the data in that time
 	"""
 	if request.method == 'GET':
-		return_json = json.loads(get_data_by_uuid_helper(uuid))
-		return Response(return_json)
+		readings = get_data_by_uuid_helper(uuid, hours)
+		return Response(readings)
 
 @csrf_exempt
 @api_view(['GET'])
-def get_average_data_12_hrs(request, uuid):
+def get_average_by_uuid(request, uuid, hours):
 	"""
-	Returns the average of the data from the corresponding uuid of last 12 hrs
+	Returns the average of the data from the corresponding uuid of last 'hours' hrs
 	"""
 	if request.method == 'GET':
-		parser = HTMLParser()
-		uuid = parser.unescape(uuid)
-		query_url = 'http://localhost:8079/api/query'
-		query = "select data in (now -12h, now) where uuid='"+uuid+"'"
-		r = requests.post(query_url, query)
-		readings = json.loads(r.content)
-		readings = readings[0]["Readings"]
+		readings = get_data_by_uuid_helper(uuid, hours)
 		numObservation = 0
 		totalAirQuality = 0
 		for reading in readings:
@@ -90,15 +84,17 @@ def get_all_sensors():
 	r = requests.post(query_url, query)
 	return r.content
 
-def get_data_by_uuid_helper(uuid):
+def get_data_by_uuid_helper(uuid, hours):
 	"""
 	Returns the data of sensor specified by uuid of last 30 days
-	TODO : Return the data given time and uuid both, right now only uuid is considered and by default last 30 days data is sent
+	TODO : Return the data given time in days,hours,minutes
 	"""
 	parser = HTMLParser()
 	uuid = parser.unescape(uuid)
 	query_url = 'http://localhost:8079/api/query'
-	query = "select data in (now -30d, now) where uuid='"+uuid+"'"
+	query = "select data in (now -"+hours+"h, now) where uuid='"+uuid+"'"
 	r = requests.post(query_url, query)
-	return r.content
+	readings = json.loads(r.content)
+	readings = readings[0]["Readings"]
+	return readings
 # Leave the rest of the views (detail, results, vote) unchanged
