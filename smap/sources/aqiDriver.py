@@ -17,6 +17,7 @@ class AQIDriver(SmapDriver):
 		self.dylosSensors = init_aqi_drivers()
 		for key, value in self.dylosSensors.iteritems():
 			dylosAQIDriver = self.add_timeseries("/"+key,'AQI',description='Air Quality Index - India')
+			dylosAQIDriver['Properties']['Timezone'] = 'Asia/Kolkata'
 
 	def start(self):
 		self.process = periodicSequentialCall(self.read)
