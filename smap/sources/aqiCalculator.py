@@ -40,8 +40,8 @@ def get_aqi_data(hours,uuid,type):
 		data = json.loads(requests.get(BASE_URL+"data/"+str(hours)+"h/"+uuid+"/").content)
 		dataPoints = remove_outliers([x[1] for x in data])
 		average = float(sum(dataPoints))/len(dataPoints) if len(dataPoints) > 0 else 0
+		logging.debug(uuid+"/"+str(hours)+"h: "+str(average))
 		aqi = convert_particle_count_to_aqi(average, type)
-		logging.debug(aqi)
 		return aqi
 	except:
 		logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
@@ -65,6 +65,7 @@ def convert_particle_count_to_aqi(average, type):
 	* http://www.indiaenvironmentportal.org.in/files/file/Air%20Quality%20Index.pdf
 	TODO: Use proper measurement of humidity to convert by using proper corrections, currently average correction value of 1.5 is used
 	TODO: Validation of correction factor and creating our own
+	TODO: PM10 conversion needs to be improved with help of data
 	"""
 	iHigh = 0
 	iLow = 0
