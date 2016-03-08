@@ -76,3 +76,4 @@ pip install django-filter  # Filtering support
 sudo apt-get install libcurl4-openssl-dev
 pip install pycurl
 pip install requests
+pip install pytest
