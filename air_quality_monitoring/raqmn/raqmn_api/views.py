@@ -68,11 +68,12 @@ def get_average_by_uuid(request, uuid, hours):
 def post_sensor_data(request, key):
 	"""
 	Posts the data of the sensor to giles server
+	{"/safar/Colaba/pm2.5": {"uuid": "166ac024-ab8f-5f49-b29d-f7bf00199cee", "Readings": [[1456980268000, 186]]}, "/safar/Chembur/pm2.5": {"uuid": "020abd8f-5d4e-51d2-a6a1-4e1f84cf9041", "Readings": [[1456980268000, 186]]}, "/safar/Andheri/pm2.5": {"uuid": "3cd92d07-43f6-5625-aacd-430d8224ee45", "Readings": [[1456980268000, 317]]}, "/safar/Mazagaon/pm2.5": {"uuid": "bb092721-a9a5-5e0f-9941-41dcb823b153", "Readings": [[1456980268000, 215]]}, "/safar/Borivali/pm2.5": {"uuid": "3fce1865-6b2e-557a-a2ba-22b157c18275", "Readings": [[1456980268000, 176]]}, "/safar/BKC/pm2.5": {"uuid": "efb58049-2dd8-5672-b044-1d7dfd33653c", "Readings": [[1456980268000, 312]]}, "/safar/Bhandup/pm2.5": {"uuid": "9c5670ae-d360-58b7-bc27-4efffd2aee25", "Readings": [[1456980268000, 302]]}, "/safar/Navi Mumbai/pm2.5": {"uuid": "b7d15ea9-d29c-51d4-b6cc-a0cf09633887", "Readings": [[1456980268000, 318]]}, "/safar/Worali/pm2.5": {"uuid": "c73a33b2-a6b0-5ff5-a048-0c1fa01495e3", "Readings": [[1456980268000, 135]]}, "/safar/Malad/pm2.5": {"uuid": "1ea37a6e-7673-5c93-a4b2-733c43e10989", "Readings": [[1456980268000, 329]]}}
 	"""
 	if request.method == 'POST':
 		giles_url = 'http://localhost:8079/add/MYAPIKEY'
 		response = requests.post(giles_url, data=json.dumps(request.data))
-		# print request.data
+		# print json.dumps(request.data)
 		return Response(response.content)
 
 def get_all_sensors():
@@ -95,6 +96,9 @@ def get_data_by_uuid_helper(uuid, hours):
 	query = "select data in (now -"+hours+"h, now) where uuid='"+uuid+"'"
 	r = requests.post(query_url, query)
 	readings = json.loads(r.content)
-	readings = readings[0]["Readings"]
+	try:
+		readings = readings[0]["Readings"]
+	except:
+		return []
 	return readings
-# Leave the rest of the views (detail, results, vote) unchanged
+# Leave the rest of the views (detail, results, vote) unchange

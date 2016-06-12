@@ -30,7 +30,6 @@ class SafarDriver(FetchDriver):
         data = get_air_quality_init(opts={})
         for i in range(0,len(data)):
             safar_city = self.add_timeseries('/'+data[i]['area']+'/pm2.5','AQI',description = 'PM2.5 readings for '+data[i]['area'])
-            safar_city['Properties']['Timezone'] = 'India/Mumbai'
             safar_city['Metadata'] = {}
             safar_city['Metadata']['SourceName'] = data[i]['area']
             safar_city['Metadata']['Area'] = data[i]['area']
