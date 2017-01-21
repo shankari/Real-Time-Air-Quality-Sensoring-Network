@@ -26,7 +26,7 @@ class TwitterDriver(SmapDriver):
         self.consumer_secret = str(opts.get('consumer_secret', 1))
         self.access_token_key = str(opts.get('access_token_key', 1))
         self.access_token_secret = str(opts.get('access_token_secret', 1))
-        self.tz = pytz.timezone(opts.get('Timezone', 1))
+        self.tz = pytz.timezone(opts.get('Properties/Timezone', 1))
         self.fetch_url = str(opts.get('url', 1))
 
     def start(self):
@@ -56,10 +56,10 @@ class TwitterDriver(SmapDriver):
             unit = self.get_unit(pollutant)
             level = self.get_level(int(float(measure)), pollutant)
             time_print = dt.strftime('%a, %d %b %Y %H:%M')
-            tweet_content = time_print + ", Location: " + place + ", " + str.upper(pollutant) + ": "+measure+" "+unit+" (Last 12hr avg.), Level: " + level +", Sources: SAFAR http://www.cse.iitb.ac.in/raqmn/"
+            tweet_content = time_print + ", Location: " + place + ", " + str.upper(pollutant) + ": "+measure+" "+unit+" (Last 12hr avg.), Level: " + level +", Sources: SAFAR http://52.207.247.244:8888/"
             api = twitter.Api(consumer_key=self.consumer_key, consumer_secret=self.consumer_secret,access_token_key=self.access_token_key,access_token_secret=self.access_token_secret)
             logging.debug(tweet_content)
-            status = api.PostUpdate(tweet_content)
+            status = api.PostUpdate(tweet_content[:140])
         except:
             logging.debug("Unexpected error : "+ str(sys.exc_info()[0]))
             logging.debug("Traceback : "+ str(traceback.format_exc()))

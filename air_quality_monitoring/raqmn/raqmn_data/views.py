@@ -11,17 +11,7 @@ def index(request):
 	This acts as a testing platform for using different plottig libraries
 	TODO : Create a visualization or inforgraphic site for data collected by raqmn project
 	"""
-	metadata = json.loads(raqmn_api.get_all_sensors())
-	i = 3
-	uuid = metadata[i]["uuid"]
-	data = {}
-	data['lat'] = metadata[i]["Metadata"]["Latitude"]
-	data['long'] = metadata[i]["Metadata"]["Longitude"]
-	data['area'] = metadata[i]["Metadata"]["Area"]
-	air_quality_data = raqmn_api.get_data_by_uuid_helper(uuid,'1')
-	data['aqi'] = air_quality_data
-	# print data
-	return render(request, 'index/index.html', data)
+	return render(request, 'index/index.html')
 
 def api_specs(request):
 	"""
